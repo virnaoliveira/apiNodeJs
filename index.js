@@ -4,6 +4,9 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const routes = require('./config/routes')
 
+const swaggerUiExpress = require('swagger-ui-express')
+const swaggerDoc = require('./config/swagger.json')
+
 const app = express()
 
 app.use(morgan('dev'))
@@ -11,6 +14,8 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cors())
 app.use(routes)
+
+app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerDoc))
 
 app.listen(21262, () => {
     console.log(`Express started at http://localhost:21262`)

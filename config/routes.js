@@ -2,7 +2,9 @@ const express = require('express')
 const routes = express.Router()
 
 //simuluação da tabela usuario
-let usuario = []
+let usuario = [
+    {'1': {cpf: '12345678900', nome: 'Teste atividade',data_nascimento: '21/08/2002'}}
+]
 
 //buscar dados
 routes.get('/', (req, res) => {
@@ -17,11 +19,12 @@ routes.post('/add', (req, res) => {
         return res.status(400).end();
     }
 
-    const data = Object.values(body)[0];
+    const lastKey = usuario.length > 0 ? Number(Object.keys(usuario[usuario.length - 1])[0]) : 0;
+    const newKey = lastKey + 1;
 
-    usuario.push(data);
+    usuario.push({ [newKey]: body });
 
-    return res.json(data);
+    return res.json({ [newKey]: body });
 });
 
 module.exports = routes
